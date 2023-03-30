@@ -6,6 +6,11 @@ pipeline {
         booleanParam(name: 'destroy', defaultValue: false, description: 'Destroy Terraform build?')
 
     }
+    environment {
+    PROJECT_ID =   'student-project-379814'
+//     LOCATION = 'us-central1-b'
+    GCLOUD_CREDS = credentials('student-project-379814')
+  }
     stages {
         stage('Git Checkout') {
             steps {
@@ -14,7 +19,9 @@ pipeline {
         }
         stage('Terraform Init') {
             steps {
+                sh 'gcloud auth activate-service-account --key-file="$GCLOUD_CREDS"'
                 sh 'terraform init '
+                
             }
         }
         stage('Terraform Plan') {
