@@ -23,10 +23,10 @@ resource "google_container_cluster" "cluster" {
   remove_default_node_pool = "true"
   initial_node_count       = 1
 
-  ip_allocation_policy{
-#     cluster_secondary_range_name = var.cluster_secondary_name
-    services_secondary_range_name = var.cluster_service_name
-  }
+#   ip_allocation_policy{
+# #     cluster_secondary_range_name = var.cluster_secondary_name
+#     services_secondary_range_name = var.cluster_service_name
+#   }
   
   maintenance_policy {
     daily_maintenance_window {
