@@ -20,7 +20,7 @@ pipeline {
         }
         stage('Terraform Plan') {
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) 
+                  withCredentials([[$class: 'FileBinding', credentialsId: 'student-project-379814', variable: 'GOOGLE_APPLICATION_CREDENTIALS']])
                 {
                 sh 'terraform plan'
                 }
@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Terraform Apply') {
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) 
+                  withCredentials([[$class: 'FileBinding', credentialsId: 'student-project-379814', variable: 'GOOGLE_APPLICATION_CREDENTIALS']])
                 {
                 sh 'terraform apply --auto-approve'
                 }
@@ -36,7 +36,7 @@ pipeline {
         }
         // stage('Terraform Destroy') {
         //     steps {
-        //         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) 
+        //           withCredentials([[$class: 'FileBinding', credentialsId: 'student-project-379814', variable: 'GOOGLE_APPLICATION_CREDENTIALS']])
         //         {
         //         sh 'terraform destroy --auto-approve'
         //         }
