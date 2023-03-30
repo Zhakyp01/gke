@@ -15,6 +15,12 @@ pipeline {
         stage('Terraform Init') {
             steps {
                 sh 'terraform init '
+                sh 'read -p "IAM name (i.e. tftest ) : " IAMNAME'
+                sh 'terraform-backups'
+                sh 'MYPROJECT=`gcloud config get-value project`
+                sh 'MY_GCP_SA=${IAMNAME}@${MYPROJECT}.iam.gserviceaccount.com'
+                sh 'gcloud iam service-accounts keys create ~/${IAMNAME}_key.${MYPROJECT}.json --iam-account ${MY_GCP_SA} --project ${MYPROJECT} eval export GOOGLE_APPLICATION_CREDENTIALS=~/${IAMNAME}_key.${MYPROJECT}.json env | grep GOOGLE_APPLICATION_CREDENTIALS'
+                sh 'gcloud auth activate-service-account ${MY_GCP_SA} --key-file ~/${IAMNAME}_key.${MYPROJECT}.json --project ${MYPROJECT}'
             }
         }
         stage('Terraform Plan') {
