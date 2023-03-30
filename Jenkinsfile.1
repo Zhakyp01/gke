@@ -15,7 +15,7 @@ pipeline {
             steps {
                 sh 'pwd'
                 sh 'gcloud auth activate-service-account --key-file="$GCLOUD_CREDS"'
-                sh 'terraform init -reconfigure'
+                sh 'terraform init '
             }
         }
         stage('Terraform Plan') {
