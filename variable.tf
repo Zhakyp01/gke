@@ -45,9 +45,9 @@ variable "subnetwork_range"{
 #   default = "gke-pods-1"
 # }
 
-variable "cluster_service_name"{
-  default = "gke-services-1"
-}
+# variable "cluster_service_name"{
+#   default = "gke-services-1"
+# }
 
 variable "cluster_secondary_range"{
   default = "10.4.0.0/14"
