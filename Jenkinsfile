@@ -30,7 +30,7 @@ pipeline {
             steps {
                 
                
-                sh 'terraform plan -var "cred=$GCLOUD_CREDS'
+                sh 'terraform plan -var "cred=$GCLOUD_CREDS"'
                 
             }
         }
@@ -63,7 +63,7 @@ pipeline {
             }
             steps {
                 
-                sh 'terraform apply --auto-approve -var "cred=$GCLOUD_CREDS'
+                sh 'terraform apply --auto-approve -var "cred=$GCLOUD_CREDS"'
             
             }
         }
@@ -74,7 +74,7 @@ pipeline {
         
         steps {
            
-           sh "terraform destroy --auto-approve -var "cred=$GCLOUD_CREDS"
+           sh 'terraform destroy --auto-approve -var "cred=$GCLOUD_CREDS"'
            
         }
     }
