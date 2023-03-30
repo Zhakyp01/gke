@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+      environment {
+//     PROJECT_ID =   'student-project-379814'
+//     LOCATION = 'us-central1-b'
+       GCLOUD_CREDS = credentials('student-project-379814')
+   }
+    stages {
+        stage('Git Checkout') {
+            steps {
+                git branch: 'master', credentialsId: 'jenkins', url: 'https://github.com/Zhakyp01/aws-project.git'
+            }
+        }
+        stage('Terraform Init') {
+            steps {
+                sh 'pwd'
+                sh 'gcloud auth activate-service-account --key-file="$GCLOUD_CREDS"'
+                sh 'terraform init -reconfigure'
+            }
+        }
+        stage('Terraform Plan') {
+            steps {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) 
+                {
+                sh 'terraform plan'
+                }
+            }
+        }
+        stage('Terraform Apply') {
+            steps {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) 
+                {
+                sh 'terraform apply --auto-approve'
+                }
+            }
+        }
+        // stage('Terraform Destroy') {
+        //     steps {
+        //         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) 
+        //         {
+        //         sh 'terraform destroy --auto-approve'
+        //         }
+        //     }
+        // }
+    }
+}
