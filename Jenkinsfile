@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        GCLOUD_CREDS = credentials('student-project-379814')
+        GCLOUD_CREDS = credentials('cred')
     }
     parameters {
         string(name: 'environment', defaultValue: 'terraform', description: 'Workspace/environment file to use for deployment')
