@@ -1,5 +1,6 @@
 ########### Variables ###########
-
+variable "cred" {
+}
 variable "project" {
   default = "student-project-379814"
 }
