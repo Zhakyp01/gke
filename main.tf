@@ -1,7 +1,7 @@
 ############### Provider Start ######################
 
 provider "google" {
-#   credentials = file("creds.json")
+  credentials = var.cred
   # project     = "student-project-379814"
   region = var.region
 }
