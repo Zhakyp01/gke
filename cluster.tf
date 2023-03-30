@@ -24,7 +24,7 @@ resource "google_container_cluster" "cluster" {
   initial_node_count       = 1
 
   ip_allocation_policy{
-    cluster_secondary_range_name = var.cluster_secondary_name
+#     cluster_secondary_range_name = var.cluster_secondary_name
     services_secondary_range_name = var.cluster_service_name
   }
   
