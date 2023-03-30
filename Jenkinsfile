@@ -2,6 +2,9 @@ pipeline {
     agent any
     environment {
         GCLOUD_CREDS = credentials('cred')
+        PROJECT_ID = 	'student-project-379814'
+        CLUSTER_NAME = 'private-cluster'
+        LOCATION = 'us-west-b'
     }
     parameters {
         string(name: 'environment', defaultValue: 'terraform', description: 'Workspace/environment file to use for deployment')
@@ -78,5 +81,11 @@ pipeline {
            
         }
     }
+        stage('deploytokubernetes') {
+           steps {
+              step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.GCLOUD_CREDS, verifyDeployments: true])
+    
+        }
+      }
     }
 }
