@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nur
+spec:
+  selector:
+    matchLabels:
+      app: nur
+  template:
+    metadata:
+      labels:
+        app: nur
+    spec:
+      containers:
+      - name: nur
+        image: nginx:latest
+        imagePullPolicy: Always
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/bash", "-c", "echo 'Nur' > /usr/share/nginx/html/index.html"]
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aktan
+spec:
+  selector:
+    matchLabels:
+      app: aktan
+  template:
+    metadata:
+      labels:
+        app: aktan
+    spec:
+      containers:
+      - name: aktan
+        image: nginx:latest
+        imagePullPolicy: Always
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/bash", "-c", "echo 'Aktan' > /usr/share/nginx/html/index.html"]
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+  labels:
+    app: aktan
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+    name: http
+  selector:
+    app: aktan
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: me-service
+  labels:
+    app: nur
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+    name: http
+  selector:
+    app: nur
