@@ -1,10 +1,5 @@
 pipeline {
     agent any
-     environment {
-//     PROJECT_ID =   'student-project-379814'
-//     LOCATION = 'us-central1-b'
-    GCLOUD_CREDS = credentials('student-project-379814')
-  }
     parameters {
         string(name: 'environment', defaultValue: 'terraform', description: 'Workspace/environment file to use for deployment')
         booleanParam(name: 'autoApprove', defaultValue: false, description: 'Automatically run apply after generating plan?')
