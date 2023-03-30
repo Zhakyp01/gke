@@ -51,7 +51,7 @@ metadata:
   labels:
     app: aktan
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
   - port: 80
     targetPort: 80
@@ -67,7 +67,7 @@ metadata:
   labels:
     app: nur
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
   - port: 80
     targetPort: 80
