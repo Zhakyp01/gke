@@ -16,8 +16,8 @@ resource "google_container_cluster" "cluster" {
   location           =var.cluster_zone
   project            = var.project
   min_master_version = data.google_container_engine_versions.gkeversion.latest_master_version
-  network            = google_compute_network.vpc_net.self_link
-  subnetwork         = google_compute_subnetwork.vpc_subnet.self_link
+#   network            = google_compute_network.vpc_net.self_link
+#   subnetwork         = google_compute_subnetwork.vpc_subnet.self_link
   monitoring_service = "monitoring.googleapis.com/kubernetes"
   logging_service    = "logging.googleapis.com/kubernetes"
   remove_default_node_pool = "true"
@@ -41,8 +41,8 @@ resource "google_container_cluster" "cluster" {
   }
 
   private_cluster_config {
-    enable_private_endpoint = true
-    enable_private_nodes = true
+    enable_private_endpoint = false
+    enable_private_nodes = false
     master_ipv4_cidr_block = var.master_cidr
   }
 
