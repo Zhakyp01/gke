@@ -41,9 +41,9 @@ variable "subnetwork_range"{
   default = "192.168.0.0/20"
 }
 
-variable "cluster_secondary_name"{
-  default = "gke-pods-1"
-}
+# variable "cluster_secondary_name"{
+#   default = "gke-pods-1"
+# }
 
 variable "cluster_service_name"{
   default = "gke-services-1"
