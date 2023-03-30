@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        GCLOUD_CREDS = credentials('gclouds-creds')
+    }
     parameters {
         string(name: 'environment', defaultValue: 'terraform', description: 'Workspace/environment file to use for deployment')
         booleanParam(name: 'autoApprove', defaultValue: false, description: 'Automatically run apply after generating plan?')
@@ -25,11 +28,10 @@ pipeline {
                 }
             }
             steps {
-                 withCredentials([[$class: 'FileBinding', credentialsId: 'student-project-379814', variable: 'GOOGLE_APPLICATION_CREDENTIALS']]) 
-                {
+                
                
-                sh 'terraform plan'
-                }
+                sh 'terraform plan -var "cred=$GCLOUD_CREDS'
+                
             }
         }
         stage('Approval') {
@@ -60,10 +62,9 @@ pipeline {
                 }
             }
             steps {
-                withCredentials([[$class: 'FileBinding', credentialsId: 'student-project-379814', variable: 'GOOGLE_APPLICATION_CREDENTIALS']])  
-                {
-                sh 'terraform apply --auto-approve'
-                }
+                
+                sh 'terraform apply --auto-approve -var "cred=$GCLOUD_CREDS'
+            
             }
         }
         stage('Destroy') {
@@ -72,10 +73,9 @@ pipeline {
             }
         
         steps {
-           withCredentials([[$class: 'FileBinding', credentialsId: 'student-project-379814', variable: 'GOOGLE_APPLICATION_CREDENTIALS']])  
-           {
-           sh "terraform destroy --auto-approve"
-           }
+           
+           sh "terraform destroy --auto-approve -var "cred=$GCLOUD_CREDS"
+           
         }
     }
     }
