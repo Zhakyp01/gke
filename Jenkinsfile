@@ -4,7 +4,7 @@ pipeline {
         GCLOUD_CREDS = credentials('cred')
         PROJECT_ID = 	'student-project-379814'
         CLUSTER_NAME = 'private-cluster'
-        LOCATION = 'us-west1'
+        LOCATION = 'us-west1-a'
         CREDENTIALS_ID = 'student-project-379814'
     }
     parameters {
