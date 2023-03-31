@@ -14,7 +14,6 @@ pipeline {
         }
         stage('deploytokubernetes') {
            steps {
-              sh 'gcloud config set project student-project-379814'
               sh 'gcloud container clusters get-credentials cluster-1 --zone us-central1-c --project student-project-379814'
               step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
     
