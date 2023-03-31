@@ -1,46 +1,23 @@
 pipeline {
     agent any
     environment {
-//     PROJECT_ID =   'student-project-379814'
-//     LOCATION = 'us-central1-b'
-       GCLOUD_CREDS = credentials('student-project-379814')
-   }
+        PROJECT_ID = 	'student-project-379814'
+        CLUSTER_NAME = 'private-cluster'
+        LOCATION = 'us-west1-a'
+        CREDENTIALS_ID = 'student-project-379814'
+    }
     stages {
         stage('Git Checkout') {
             steps {
                 git branch: 'main', credentialsId: 'jenkins', url: 'https://github.com/Zhakyp01/gke.git'
             }
         }
-        stage('Terraform Init') {
-            steps {
-                sh 'pwd'
-                sh 'gcloud auth activate-service-account --key-file="$GCLOUD_CREDS"'
-                sh 'terraform init '
-            }
+        stage('deploytokubernetes') {
+           steps {
+              sh 'gcloud container clusters get-credentials env.CLUSTER_NAME --zone env.LOCATION --project env.PROJECT_ID'
+              step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+    
         }
-        stage('Terraform Plan') {
-            steps {
-                  withCredentials([[$class: 'FileBinding', credentialsId: 'student-project-379814', variable: 'GOOGLE_APPLICATION_CREDENTIALS']])
-                {
-                sh 'terraform plan'
-                }
-            }
-        }
-        stage('Terraform Apply') {
-            steps {
-                  withCredentials([[$class: 'FileBinding', credentialsId: 'student-project-379814', variable: 'GOOGLE_APPLICATION_CREDENTIALS']])
-                {
-                sh 'terraform apply --auto-approve'
-                }
-            }
-        }
-        // stage('Terraform Destroy') {
-        //     steps {
-        //           withCredentials([[$class: 'FileBinding', credentialsId: 'student-project-379814', variable: 'GOOGLE_APPLICATION_CREDENTIALS']])
-        //         {
-        //         sh 'terraform destroy --auto-approve'
-        //         }
-        //     }
-        // }
+      }
     }
 }
